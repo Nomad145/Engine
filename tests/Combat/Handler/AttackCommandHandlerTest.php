@@ -7,6 +7,8 @@ use Engine\Encounter;
 use Engine\Character;
 use Engine\Combat\Command\AttackCommand;
 use Engine\Combat\Handler\AttackCommandHandler;
+use Engine\Factory\AttackRollFactory;
+use Engine\Roll\AttackRoll;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -18,15 +20,21 @@ class AttackCommandHandlerTest extends TestCase
         $this->encounter = $this->createMock(Encounter::class);
         $this->character = $this->createMock(Character::class);
         $this->target = $this->createMock(Character::class);
+        $this->attackRoll = $this->createMock(AttackRoll::class);
+        $this->factory = $this->createMock(AttackRollFactory::class);
+
+        $this->factory
+            ->method('withCharacter')
+            ->willReturn($this->attackRoll);
 
         $this->command = new AttackCommand($this->encounter, $this->character, $this->target);
-        $this->subject = new AttackCommandHandler();
+        $this->subject = new AttackCommandHandler($this->factory);
     }
 
     public function testSuccessfulAttackRoll()
     {
-        $this->character
-            ->method('getAttackRoll')
+        $this->attackRoll
+            ->method('roll')
             ->willReturn(18);
 
         $this->character
@@ -51,9 +59,9 @@ class AttackCommandHandlerTest extends TestCase
 
     public function testUnsuccessfulAttackRoll()
     {
-        $this->character
+        $this->attackRoll
             ->expects($this->once())
-            ->method('getAttackRoll')
+            ->method('roll')
             ->willReturn(5);
 
         $this->target
@@ -74,9 +82,9 @@ class AttackCommandHandlerTest extends TestCase
 
     public function testAttackRollOfOne()
     {
-        $this->character
+        $this->attackRoll
             ->expects($this->once())
-            ->method('getAttackRoll')
+            ->method('roll')
             ->willReturn(1);
 
         $this->target
@@ -92,9 +100,9 @@ class AttackCommandHandlerTest extends TestCase
 
     public function testAttackRollOfTwenty()
     {
-        $this->character
+        $this->attackRoll
             ->expects($this->once())
-            ->method('getAttackRoll')
+            ->method('roll')
             ->willReturn(20);
 
         $this->target

@@ -20,6 +20,13 @@ abstract class CharacterClass
     protected $hitDice;
 
     /**
+     * An associative array of class profieciency bonuses.
+     *
+     * @var array
+     */
+    protected $proficiencyBonuses;
+
+    /**
      * Get the starting HP for the Character Class.
      *
      * The formula is the maximum value of the HitDice + the Hit
@@ -38,5 +45,16 @@ abstract class CharacterClass
     public function getHitDice() : RollInterface
     {
         return $this->hitDice;
+    }
+
+    /**
+     * Returns proficiency bonuses up to level 20.
+     *
+     * @param int $level
+     * @return int
+     */
+    public function getProficiencyBonus(int $level) : int
+    {
+        return $this->proficiencyBonuses[$level > 20 ? 20 : $level];
     }
 }

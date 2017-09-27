@@ -7,6 +7,7 @@ namespace Engine;
 use Engine\Enum\AbilityEnum;
 use Engine\CharacterClass;
 use Engine\Roll\Roll;
+use Engine\Weapon;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -40,9 +41,6 @@ class Character
     /** @var Inventory */
     protected $inventory;
 
-    /** @var RollInterface */
-    protected $attackRoll;
-
     public function __construct(
         string $name,
         int $level,
@@ -58,7 +56,6 @@ class Character
         /* $this->inventory = new Investory(); */
         $this->equipment = new Equipment();
         $this->hitPoints = $this->getMaxHitPoints();
-        $this->attackRoll = new Roll(1, 20);
     }
 
     /**
@@ -121,19 +118,43 @@ class Character
         return $this->hitPoints;
     }
 
-    /**
-     * @return int
-     */
-    public function getAttackRoll() : int
-    {
-        return $this->attackRoll->roll();
-    }
-
     public function getArmorClass() : int
     {
     }
 
-    public function getDamageRoll() : int
+    /**
+     * @todo: Need to check for proficiencies with weapons, armor, spell types,
+     * etc.  Maybe `ProficiencyInterface`?  Maybe just deal with classnames.
+     *
+     * @param Weapon $weapon
+     * @return bool
+     */
+    public function isProficientWith(Weapon $weapon) : bool
+    {
+    }
+
+    /**
+     * Proficiency bonuses are determined by the class and the character
+     * level.
+     *
+     * @return int
+     */
+    public function getProficiencyBonus() : int
+    {
+        $this->class->getProficiencyBonus($this->level);
+    }
+
+    /**
+     * todo: Should an interface be used for Character and Equipment?
+     * todo: Should Weapon instead be `WeaponInterface`?
+     * @return Weapon
+     */
+    public function getMainHand() : Weapon
+    {
+        return $this->equipment->getMainHand();
+    }
+
+    public function getDamageRoll()
     {
     }
 }

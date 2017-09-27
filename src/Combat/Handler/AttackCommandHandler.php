@@ -3,12 +3,25 @@
 namespace Engine\Combat\Handler;
 
 use Engine\Combat\Command\AttackCommand;
+use Engine\Factory\AttackRollFactory;
+use Engine\Roll\AttackRoll;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class AttackCommandHandler // implements CommandHandlerInterface
 {
+    /** @var AttackRollFactory */
+    protected $factory;
+
+    /**
+     * @param AttackRollFactory $factory
+     */
+    public function __construct(AttackRollFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     /**
      * @param AttackCommand $command
      * @return void
@@ -17,11 +30,7 @@ class AttackCommandHandler // implements CommandHandlerInterface
     {
         $character = $command->getCharacter();
         $target = $command->getTarget();
-
-        // Much, much better.
-        /* $attackRoll = (new AttackRoll($character))->roll(); */
-
-        $attackRoll = $character->getAttackRoll();
+        $attackRoll = ($this->factory->withCharacter($character))->roll();
 
         // If the attack roll equals 1, the attack misses.
         if ($attackRoll === 1) {

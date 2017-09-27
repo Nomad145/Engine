@@ -4,6 +4,8 @@ namespace Engine\Roll;
 
 use Engine\Character;
 use Engine\Roll\RollInterface;
+use Engine\Weapon\MeleeWeapon;
+use Engine\Enum\AbilityEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -19,10 +21,10 @@ class AttackRoll implements RollInterface
     /**
      * @param Character $character
      */
-    public function __construct(Character $character)
+    public function __construct(Character $character, RollInterface $roll = null)
     {
         $this->character = $character;
-        $this->dice = new Dice(20);
+        $this->dice = $roll ? : new Dice(20);
     }
 
     /**
@@ -32,9 +34,22 @@ class AttackRoll implements RollInterface
      */
     public function roll() : int
     {
-        $rollValue = $this->dice->roll();
+        $weapon = $this->character->getMainHand();
 
-        $rollValue += $this->character;
+        // @todo: Determine the weapon type by it's subclass.  There also might
+        // not be a weapon equipped, so it may be necessary to have some
+        // "unarmed" type.
+        $modifier = $this->character->getAbilityModifier(
+            $weapon instanceof MeleeWeapon ?
+            AbilityEnum::STRENGTH() :
+            AbilityEnum::DEXTERITY()
+        );
+
+        $proficiencyBonus = $this->character->isProficientWith($weapon) ?
+            $this->character->getProficiencyBonus() :
+            0;
+
+        return $this->dice->roll() + $modifier + $proficiencyBonus;
     }
 
     /**
