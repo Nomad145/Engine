@@ -11,10 +11,10 @@ use Engine\Enum\AbilityEnum;
  */
 class RaceTest extends TestCase
 {
-    public function testGetAbilityScoreModifier()
+    public function testGetAbilityScoreIncrease()
     {
         $subject = new Dwarf();
 
-        $this->assertEquals(2, $subject->getAbilityScoreModifier(AbilityEnum::CONSTITUTION(), 2));
+        $this->assertEquals(2, $subject->getAbilityScoreIncrease(AbilityEnum::CONSTITUTION(), 2));
     }
 }

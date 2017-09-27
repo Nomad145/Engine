@@ -9,7 +9,7 @@ use Engine\Race;
  */
 class Halfing extends Race
 {
-    protected const ABILITY_SCORE_MODIFIERS = [
+    protected const ABILITY_SCORE_INCREASE = [
         'dexterity' => 2
     ];
 }

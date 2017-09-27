@@ -65,29 +65,39 @@ class Character
      * @param AbilityEnum
      * @return int
      */
-    public function getAbilityScore(AbilityEnum $type) : int
+    public function getAbilityScore(AbilityEnum $ability) : int
     {
-        return $this->race->getAbilityScoreModifier($type) + $this->abilityScores->get($type);
+        return $this->race->getAbilityScoreIncrease($ability) + $this->abilityScores->get($ability);
     }
 
     /**
+     * Returns the Modifier of an Ability.
+     *
+     * @return int
+     */
+    public function getAbilityModifier(AbilityEnum $ability) : int
+    {
+        return (int) floor(($this->getAbilityScore($ability) - 10) / 2);
+    }
+
+    /**
+     * Maximum Hit points is calculated using the average roll of the hit dice
+     * plus the constitution modifier times the character's level plus the
+     * starting level HP.
+     *
      * @return int
      */
     public function getMaxHitPoints() : int
     {
-        $hitPointModifier = $this
-            ->race
-            ->getAbilityScoreModifier(
-                $this->class->getHitPointModifier()
-            );
+        $constModifier = $this->getAbilityModifier(AbilityEnum::CONSTITUTION());
 
-        $startingHitPoints = $this->class->getStartingHitPoints() + $hitPointModifier;
+        $startingHitPoints = $this->class->getStartingHitPoints() + $constModifier;
 
         if ($this->level === 1) {
             return $startingHitPoints;
         }
 
-        return ($this->class->getHitDice()->avg() + $hitPointModifier)
+        return ($this->class->getHitDice()->avg() + $constModifier)
             * $this->level
             + $startingHitPoints;
     }

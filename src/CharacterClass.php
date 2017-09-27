@@ -11,14 +11,6 @@ use Engine\Roll\RollInterface;
 abstract class CharacterClass
 {
     /**
-     * The ability modifier for maximum hit points specific to each
-     * class.
-     *
-     * @var AbilityEnum
-     */
-    protected $hitPointModifier;
-
-    /**
      * The hit dice for determining the maximum hit points for a
      * character.  The Character's Class is responsible for
      * determining the dice that gets rolled.
@@ -38,14 +30,6 @@ abstract class CharacterClass
     public function getStartingHitPoints() : int
     {
         return $this->hitDice->max();
-    }
-
-    /**
-     * @return AbilityEnum
-     */
-    public function getHitPointModifier() : AbilityEnum
-    {
-        return $this->hitPointModifier;
     }
 
     /**

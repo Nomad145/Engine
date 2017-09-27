@@ -14,20 +14,18 @@ abstract class Race
      * the stats, values are the modifier.
      *
      * Example:
-     *     ['wisdom' => '-2, 'strength' => 4]
+     *     ['wisdom' => 2, 'strength' => 4]
      */
-    protected const ABILITY_SCORE_MODIFIERS = [];
+    protected const ABILITY_SCORE_INCREASE = [];
 
     /**
+     * Returns the value of the ability score increase or 0.
+     *
      * @param AbilityEnum $ability
      * @return int|null
      */
-    public function getAbilityScoreModifier(AbilityEnum $ability) : ?int
+    public function getAbilityScoreIncrease(AbilityEnum $ability) : int
     {
-        if (!array_key_exists((string) $ability, static::ABILITY_SCORE_MODIFIERS)) {
-            return null;
-        }
-
-        return static::ABILITY_SCORE_MODIFIERS[(string) $ability];
+        return static::ABILITY_SCORE_INCREASE[(string) $ability] ?? 0;
     }
 }

@@ -13,7 +13,6 @@ class Wizard extends CharacterClass
 {
     public function __construct()
     {
-        $this->hitPointModifier = AbilityEnum::CONSTITUTION();
         $this->hitDice = new Roll(1, 6);
     }
 }

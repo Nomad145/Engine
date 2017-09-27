@@ -35,10 +35,17 @@ class CharacterTest extends TestCase
         $this->assertEquals(11, $constitution);
     }
 
+    public function testGetAbilityModifier()
+    {
+        $value = $this->subject->getAbilityModifier(AbilityEnum::CONSTITUTION());
+
+        $this->assertEquals(0, $value);
+    }
+
     public function testGetMaxHitPoints()
     {
         $maxHitPoints = $this->subject->getMaxHitPoints();
 
-        $this->assertEquals(52, $maxHitPoints);
+        $this->assertEquals(42, $maxHitPoints);
     }
 }

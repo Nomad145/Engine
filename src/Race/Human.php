@@ -9,7 +9,7 @@ use Engine\Race;
  */
 class Human extends Race
 {
-    protected const ABILITY_SCORE_MODIFIERS = [
+    protected const ABILITY_SCORE_INCREASE = [
         'strength' => 1,
         'dexterity' => 1,
         'constitution' => 1,

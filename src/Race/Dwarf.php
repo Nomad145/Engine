@@ -9,7 +9,7 @@ use Engine\Race;
  */
 class Dwarf extends Race
 {
-    protected const ABILITY_SCORE_MODIFIERS = [
+    protected const ABILITY_SCORE_INCREASE = [
         'constitution' => 2
     ];
 }
