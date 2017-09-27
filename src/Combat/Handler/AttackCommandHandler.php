@@ -5,6 +5,7 @@ namespace Engine\Combat\Handler;
 use Engine\Combat\Command\AttackCommand;
 use Engine\Factory\AttackRollFactory;
 use Engine\Roll\AttackRoll;
+use Engine\Factory\DamageRollFactory;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -12,14 +13,20 @@ use Engine\Roll\AttackRoll;
 class AttackCommandHandler // implements CommandHandlerInterface
 {
     /** @var AttackRollFactory */
-    protected $factory;
+    protected $attackRollFactory;
+
+    /** @var DamageRollFactory */
+    protected $damageRollFactor;
 
     /**
      * @param AttackRollFactory $factory
      */
-    public function __construct(AttackRollFactory $factory)
-    {
-        $this->factory = $factory;
+    public function __construct(
+        AttackRollFactory $attackRollFactory,
+        DamageRollFactory $damageRollFactory
+    ) {
+        $this->attackRollFactory = $attackRollFactory;
+        $this->damageRollFactory = $damageRollFactory;
     }
 
     /**
@@ -29,8 +36,15 @@ class AttackCommandHandler // implements CommandHandlerInterface
     public function handle(AttackCommand $command) : void
     {
         $character = $command->getCharacter();
+        $weapon = $command->getWeapon();
         $target = $command->getTarget();
-        $attackRoll = ($this->factory->withCharacter($character))->roll();
+
+        $attackRoll = ($this
+            ->attackRollFactory
+            ->withCharacterAndWeapon(
+                $character,
+                $weapon
+            ))->roll();
 
         // If the attack roll equals 1, the attack misses.
         if ($attackRoll === 1) {
@@ -45,7 +59,14 @@ class AttackCommandHandler // implements CommandHandlerInterface
             }
         }
 
-        $damage = $character->getDamageRoll();
+        $damage = ($this
+            ->damageRollFactory
+            ->withCharacterAndWeapon(
+                $character,
+                $weapon,
+                $command->getBonusAction(),
+                $attackRoll === 20
+            ))->roll();
 
         $target->setHitPoints($target->getHitPoints() - $damage);
 

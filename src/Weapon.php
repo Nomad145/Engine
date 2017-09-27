@@ -21,7 +21,7 @@ abstract class Weapon
     /**
      * @return string
      */
-    public function getName() : ?string
+    public function getName() : string
     {
         return $this->name;
     }
@@ -29,15 +29,15 @@ abstract class Weapon
     /**
      * @return Roll
      */
-    public function getDamage() : ?RollInterface
+    public function getDamage() : RollInterface
     {
-        return $this->Damage;
+        return $this->damage;
     }
 
     /**
      * @return int
      */
-    public function getWeight() : ?int
+    public function getWeight() : int
     {
         return $this->weight;
     }

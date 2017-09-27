@@ -3,6 +3,7 @@
 namespace Engine\Weapon;
 
 use Engine\Weapon;
+use Engine\Roll\RollInterface;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>

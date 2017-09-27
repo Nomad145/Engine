@@ -6,8 +6,10 @@ use Engine\Character;
 use Engine\Roll\RollInterface;
 use Engine\Weapon\MeleeWeapon;
 use Engine\Enum\AbilityEnum;
+use Engine\Weapon;
 
 /**
+ * @todo: Account for spell attack rolls.
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
 class AttackRoll implements RollInterface
@@ -15,16 +17,25 @@ class AttackRoll implements RollInterface
     /** @var Character */
     protected $character;
 
+    /** @var Weapon */
+    protected $weapon;
+
     /** @var RollInterface */
-    protected $dice;
+    protected $roll;
 
     /**
      * @param Character $character
+     * @param Weapon $weapon
+     * @param RollInterface $roll
      */
-    public function __construct(Character $character, RollInterface $roll = null)
-    {
+    public function __construct(
+        Character $character,
+        Weapon $weapon,
+        RollInterface $roll
+    ) {
         $this->character = $character;
-        $this->dice = $roll ? : new Dice(20);
+        $this->weapon = $weapon;
+        $this->roll = $roll;
     }
 
     /**
@@ -34,22 +45,20 @@ class AttackRoll implements RollInterface
      */
     public function roll() : int
     {
-        $weapon = $this->character->getMainHand();
-
         // @todo: Determine the weapon type by it's subclass.  There also might
         // not be a weapon equipped, so it may be necessary to have some
         // "unarmed" type.
         $modifier = $this->character->getAbilityModifier(
-            $weapon instanceof MeleeWeapon ?
+            $this->weapon instanceof MeleeWeapon ?
             AbilityEnum::STRENGTH() :
             AbilityEnum::DEXTERITY()
         );
 
-        $proficiencyBonus = $this->character->isProficientWith($weapon) ?
+        $proficiencyBonus = $this->character->isProficientWith($this->weapon) ?
             $this->character->getProficiencyBonus() :
             0;
 
-        return $this->dice->roll() + $modifier + $proficiencyBonus;
+        return $this->roll->roll() + $modifier + $proficiencyBonus;
     }
 
     /**
@@ -57,7 +66,7 @@ class AttackRoll implements RollInterface
      */
     public function avg() : int
     {
-        return $this->dice->avg();
+        return $this->roll->avg();
     }
 
     /**
@@ -65,6 +74,6 @@ class AttackRoll implements RollInterface
      */
     public function max() : int
     {
-        return $this->dice->max();
+        return $this->roll->max();
     }
 }

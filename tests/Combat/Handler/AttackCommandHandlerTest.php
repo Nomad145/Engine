@@ -9,6 +9,10 @@ use Engine\Combat\Command\AttackCommand;
 use Engine\Combat\Handler\AttackCommandHandler;
 use Engine\Factory\AttackRollFactory;
 use Engine\Roll\AttackRoll;
+use Engine\Weapon\Melee\Longsword;
+use Engine\Roll\Roll;
+use Engine\Factory\DamageRollFactory;
+use Engine\Roll\DamageRoll;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -21,28 +25,37 @@ class AttackCommandHandlerTest extends TestCase
         $this->character = $this->createMock(Character::class);
         $this->target = $this->createMock(Character::class);
         $this->attackRoll = $this->createMock(AttackRoll::class);
-        $this->factory = $this->createMock(AttackRollFactory::class);
+        $this->damageRoll = $this->createMock(DamageRoll::class);
+        $attackRollFactory = $this->createMock(AttackRollFactory::class);
+        $damageRollFactory = $this->createMock(DamageRollFactory::class);
+        $sword = new Longsword('Anduril', 3, new Roll(1, 10));
 
-        $this->factory
-            ->method('withCharacter')
+        $attackRollFactory
+            ->method('withCharacterAndWeapon')
             ->willReturn($this->attackRoll);
 
-        $this->command = new AttackCommand($this->encounter, $this->character, $this->target);
-        $this->subject = new AttackCommandHandler($this->factory);
+        $damageRollFactory
+            ->method('withCharacterAndWeapon')
+            ->willReturn($this->damageRoll);
+
+        $this->command = new AttackCommand($this->encounter, $this->character, $sword, $this->target);
+        $this->subject = new AttackCommandHandler($attackRollFactory, $damageRollFactory);
     }
 
     public function testSuccessfulAttackRoll()
     {
         $this->attackRoll
+            ->expects($this->once())
             ->method('roll')
             ->willReturn(18);
 
-        $this->character
+        $this->damageRoll
             ->expects($this->once())
-            ->method('getDamageRoll')
+            ->method('roll')
             ->willReturn(10);
 
         $this->target
+            ->expects($this->once())
             ->method('getArmorClass')
             ->willReturn(10);
 
@@ -69,9 +82,9 @@ class AttackCommandHandlerTest extends TestCase
             ->method('getArmorClass')
             ->willReturn(10);
 
-        $this->character
+        $this->damageRoll
             ->expects($this->never())
-            ->method('getDamageRoll');
+            ->method('roll');
 
         $this->target
             ->expects($this->never())
@@ -91,9 +104,9 @@ class AttackCommandHandlerTest extends TestCase
             ->expects($this->never())
             ->method('getArmorClass');
 
-        $this->character
+        $this->damageRoll
             ->expects($this->never())
-            ->method('getDamageRoll');
+            ->method('roll');
 
         $this->subject->handle($this->command);
     }
@@ -109,9 +122,9 @@ class AttackCommandHandlerTest extends TestCase
             ->expects($this->never())
             ->method('getArmorClass');
 
-        $this->character
+        $this->damageRoll
             ->expects($this->once())
-            ->method('getDamageRoll')
+            ->method('roll')
             ->willReturn(10);
 
         $this->target

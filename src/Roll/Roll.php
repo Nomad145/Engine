@@ -12,7 +12,7 @@ class Roll implements RollInterface
 
     /**
      * @param int $number The number of dice to roll.
-     * @param int $sides The number of sides per dic.
+     * @param int $sides The number of sides per dice.
      * @throws \InvalidArgumentException
      */
     public function __construct(int $number, int $sides)

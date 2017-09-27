@@ -4,6 +4,7 @@ namespace Engine\Combat\Command;
 
 use Engine\Encounter;
 use Engine\Character;
+use Engine\Weapon;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -16,17 +17,31 @@ class AttackCommand
     /** @var Character */
     protected $character;
 
+    /**
+     * The weapon $character has chosen to attack with.
+     *
+     * @var Weapon
+     */
+    protected $weapon;
+
     /** @var Character */
-    protected $targets;
+    protected $target;
+
+    /** @var bool */
+    protected $bonusAction;
 
     public function __construct(
         Encounter $encounter,
         Character $character,
-        Character $target
+        Weapon $weapon,
+        Character $target,
+        bool $bonusAction = false
     ) {
         $this->encounter = $encounter;
         $this->character = $character;
+        $this->weapon = $weapon;
         $this->target = $target;
+        $this->bonusAction = $bonusAction;
     }
     /**
      * @return Encounter
@@ -50,5 +65,21 @@ class AttackCommand
     public function getTarget() : Character
     {
         return $this->target;
+    }
+
+    /**
+     * @return Weapon
+     */
+    public function getWeapon() : Weapon
+    {
+        return $this->weapon;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getBonusAction() : bool
+    {
+        return $this->bonusAction;
     }
 }

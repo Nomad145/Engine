@@ -153,8 +153,4 @@ class Character
     {
         return $this->equipment->getMainHand();
     }
-
-    public function getDamageRoll()
-    {
-    }
 }
