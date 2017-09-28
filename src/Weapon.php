@@ -41,4 +41,12 @@ abstract class Weapon
     {
         return $this->weight;
     }
+
+    /**
+     * @return int
+     */
+    public function roll() : int
+    {
+        return $this->damage->roll();
+    }
 }

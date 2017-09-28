@@ -4,6 +4,7 @@ namespace Engine\Factory;
 
 use Engine\Character;
 use Engine\Weapon;
+use Engine\Roll\DamageRoll;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>

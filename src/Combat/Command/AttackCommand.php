@@ -43,6 +43,7 @@ class AttackCommand
         $this->target = $target;
         $this->bonusAction = $bonusAction;
     }
+
     /**
      * @return Encounter
      */
