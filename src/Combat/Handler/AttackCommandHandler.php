@@ -39,6 +39,7 @@ class AttackCommandHandler // implements CommandHandlerInterface
         $weapon = $command->getWeapon();
         $target = $command->getTarget();
 
+        /* @var int */
         $attackRoll = ($this
             ->attackRollFactory
             ->withCharacterAndWeapon(
@@ -51,7 +52,8 @@ class AttackCommandHandler // implements CommandHandlerInterface
             return;
         }
 
-        // If the attack roll equals 20, the attack hits and is a critical hit.
+        // If the attack roll equals 20, the attack auto hits and is critical.
+        // Otherwise, compare the attack roll with the target's armor class.
         if ($attackRoll !== 20) {
             // The attack roll must be greater than the target's Armor Class.
             if ($attackRoll <= $target->getArmorClass()) {
@@ -59,6 +61,7 @@ class AttackCommandHandler // implements CommandHandlerInterface
             }
         }
 
+        /* @var int */
         $damage = ($this
             ->damageRollFactory
             ->withCharacterAndWeapon(
@@ -68,6 +71,7 @@ class AttackCommandHandler // implements CommandHandlerInterface
                 $attackRoll === 20
             ))->roll();
 
+        // @todo: Damage Types, Vulnerabilites, and Resistances.
         $target->setHitPoints($target->getHitPoints() - $damage);
 
         return;

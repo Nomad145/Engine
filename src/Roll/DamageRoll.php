@@ -66,14 +66,4 @@ class DamageRoll implements RollInterface
 
         return $damage + $modifier;
     }
-
-    public function avg() : int
-    {
-        return $this->roll->avg();
-    }
-
-    public function max() : int
-    {
-        return $this->roll->max();
-    }
 }

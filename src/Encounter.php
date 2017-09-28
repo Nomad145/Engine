@@ -30,7 +30,7 @@ class Encounter
      */
     public function setEnemies(array $enemies) : Encounter
     {
-        $this->enemies = enemies;
+        $this->enemies = $enemies;
 
         return $this;
     }
@@ -49,7 +49,7 @@ class Encounter
      */
     public function setAllies(array $allies) : Encounter
     {
-        $this->allies = allies;
+        $this->allies = $allies;
 
         return $this;
     }
@@ -68,7 +68,7 @@ class Encounter
      */
     public function setRound(int $round) : Encounter
     {
-        $this->round = round;
+        $this->round = $round;
 
         return $this;
     }

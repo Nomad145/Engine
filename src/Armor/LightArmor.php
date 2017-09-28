@@ -1,6 +1,8 @@
 <?php
 
-namespace Item\Armor;
+namespace Engine\Armor;
+
+use Engine\Armor;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>

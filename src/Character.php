@@ -8,11 +8,13 @@ use Engine\Enum\AbilityEnum;
 use Engine\CharacterClass;
 use Engine\Roll\Roll;
 use Engine\Weapon;
+use Engine\Armor\ArmorClassInterface;
+use Engine\Equipment;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-class Character
+class Character implements ArmorClassInterface
 {
     /** @var string */
     protected $name;
@@ -53,12 +55,32 @@ class Character
         $this->race = $race;
         $this->class = $class;
         $this->abilityScores = $abilityScores;
-        /* $this->inventory = new Investory(); */
-        $this->equipment = new Equipment();
         $this->hitPoints = $this->getMaxHitPoints();
+        $this->equipment = new Equipment();
     }
 
     /**
+     * @param Equipment $equipment
+     * @return $this
+     */
+    public function setEquipment(Equipment $equipment) : Character
+    {
+        $this->equipment = $equipment;
+
+        return $this;
+    }
+
+    /**
+     * @return Equipment
+     */
+    public function getEquipment() : ?Equipment
+    {
+        return $this->equipment;
+    }
+
+    /**
+     * Returns the ability score with the race increase.
+     *
      * @param AbilityEnum
      * @return int
      */
@@ -68,7 +90,8 @@ class Character
     }
 
     /**
-     * Returns the Modifier of an Ability.
+     * Returns the Modifier of an Ability.  Modifiers are calculated by
+     * subtracting 10 from the ability score and dividing by two rounded down.
      *
      * @return int
      */
@@ -78,7 +101,7 @@ class Character
     }
 
     /**
-     * Maximum Hit points is calculated using the average roll of the hit dice
+     * Maximum Hit points are calculated using the average roll of the hit dice
      * plus the constitution modifier times the character's level plus the
      * starting level HP.
      *
@@ -105,7 +128,7 @@ class Character
      */
     public function setHitPoints(int $hitPoints) : Character
     {
-        $this->hitPoints = hitPoints;
+        $this->hitPoints = $hitPoints;
 
         return $this;
     }
@@ -120,11 +143,13 @@ class Character
 
     public function getArmorClass() : int
     {
+        return $this->equipment->getArmorClass();
     }
 
     /**
      * @todo: Need to check for proficiencies with weapons, armor, spell types,
-     * etc.  Maybe `ProficiencyInterface`?  Maybe just deal with classnames.
+     * etc.  Maybe `ProficiencyInterface`?  Maybe just deal with a collection
+     * of classnames.
      *
      * @param Weapon $weapon
      * @return bool
@@ -142,15 +167,5 @@ class Character
     public function getProficiencyBonus() : int
     {
         $this->class->getProficiencyBonus($this->level);
-    }
-
-    /**
-     * todo: Should an interface be used for Character and Equipment?
-     * todo: Should Weapon instead be `WeaponInterface`?
-     * @return Weapon
-     */
-    public function getMainHand() : Weapon
-    {
-        return $this->equipment->getMainHand();
     }
 }

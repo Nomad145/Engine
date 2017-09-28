@@ -60,20 +60,4 @@ class AttackRoll implements RollInterface
 
         return $this->roll->roll() + $modifier + $proficiencyBonus;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function avg() : int
-    {
-        return $this->roll->avg();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function max() : int
-    {
-        return $this->roll->max();
-    }
 }

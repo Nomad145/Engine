@@ -2,10 +2,13 @@
 
 namespace Engine;
 
+use Engine\Armor\ArmorClassInterface;
+use Engine\Armor;
+
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-class Equipment
+class Equipment implements ArmorClassInterface
 {
     /** @var Armor */
     protected $armor;
@@ -20,12 +23,22 @@ class Equipment
     protected $offHand;
 
     /**
+     * If no armor or shield is set, the AC is 0.
+     *
+     * {@inheritdoc}
+     */
+    public function getArmorClass() : int
+    {
+        return $this->armor->getArmorClass() ?? 0 + $this->shield->getArmorClass() ?? 0;
+    }
+
+    /**
      * @param Armor $armor
      * @return $this
      */
     public function setArmor(Armor $armor) : Equipment
     {
-        $this->armor = armor;
+        $this->armor = $armor;
 
         return $this;
     }
@@ -44,7 +57,7 @@ class Equipment
      */
     public function setShield(Shield $shield) : Equipment
     {
-        $this->shield = shield;
+        $this->shield = $shield;
 
         return $this;
     }
@@ -63,7 +76,7 @@ class Equipment
      */
     public function setMainHand(Weapon $mainHand) : Equipment
     {
-        $this->mainHand = mainHand;
+        $this->mainHand = $mainHand;
 
         return $this;
     }
@@ -82,7 +95,7 @@ class Equipment
      */
     public function setOffHand(Weapon $offHand) : Equipment
     {
-        $this->offHand = offHand;
+        $this->offHand = $offHand;
 
         return $this;
     }

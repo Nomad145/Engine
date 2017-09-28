@@ -2,10 +2,12 @@
 
 namespace Engine\Roll;
 
+use Engine\Roll\CalculatedRollInterface;
+
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-class Roll implements RollInterface
+class Roll implements RollInterface, CalculatedRollInterface
 {
     /** @var RollInterface[] */
     protected $dice;

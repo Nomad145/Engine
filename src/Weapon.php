@@ -7,7 +7,7 @@ use Engine\Roll\RollInterface;
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-abstract class Weapon
+abstract class Weapon implements RollInterface
 {
     /** @var string */
     protected $name;
@@ -43,7 +43,9 @@ abstract class Weapon
     }
 
     /**
-     * @return int
+     * Used as a pass-through method for the weapon roll.
+     *
+     * {@inheritdoc}
      */
     public function roll() : int
     {

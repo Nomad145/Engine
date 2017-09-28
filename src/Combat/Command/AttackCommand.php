@@ -27,7 +27,12 @@ class AttackCommand
     /** @var Character */
     protected $target;
 
-    /** @var bool */
+    /**
+     * Determines whether the current attack is a main-hand attack or an
+     * off-hand (bonus) attack.
+     *
+     * @var bool
+     */
     protected $bonusAction;
 
     public function __construct(

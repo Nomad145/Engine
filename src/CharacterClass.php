@@ -3,7 +3,7 @@
 namespace Engine;
 
 use Engine\Enum\AbilityEnum;
-use Engine\Roll\RollInterface;
+use Engine\Roll\CalculatedRollInterface;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -15,7 +15,7 @@ abstract class CharacterClass
      * character.  The Character's Class is responsible for
      * determining the dice that gets rolled.
      *
-     * @var RollInterface
+     * @var CalculatedRollInterface
      */
     protected $hitDice;
 
@@ -42,7 +42,7 @@ abstract class CharacterClass
     /**
      * @return Roll
      */
-    public function getHitDice() : RollInterface
+    public function getHitDice() : CalculatedRollInterface
     {
         return $this->hitDice;
     }

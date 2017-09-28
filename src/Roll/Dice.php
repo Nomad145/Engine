@@ -2,10 +2,13 @@
 
 namespace Engine\Roll;
 
+use Engine\Roll\CalculatedRollInterface;
+use Engine\Roll\RollInterface;
+
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-class Dice implements RollInterface
+class Dice implements RollInterface, CalculatedRollInterface
 {
     public function __construct(int $sides)
     {

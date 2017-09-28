@@ -8,6 +8,8 @@ use Engine\Enum\AbilityEnum;
 use Engine\Race\Human;
 use Engine\CharacterClass\Wizard;
 use Engine\AbilityScores;
+use Engine\Equipment;
+use Engine\Armor\LightArmor;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -25,7 +27,13 @@ class CharacterTest extends TestCase
             }
         );
 
-        $this->subject = new Character('Gandalf', 9, new Human(), new Wizard(), $abilityScores);
+        $equipment = (new Equipment())
+            ->setArmor(new LightArmor());
+
+        $character = new Character('Gandalf', 9, new Human(), new Wizard(), $abilityScores);
+        $character->setEquipment($equipment);
+
+        $this->subject = $character;
     }
 
     public function testGetAbilityScore()
@@ -47,5 +55,10 @@ class CharacterTest extends TestCase
         $maxHitPoints = $this->subject->getMaxHitPoints();
 
         $this->assertEquals(42, $maxHitPoints);
+    }
+
+    public function testGetArmorClass()
+    {
+        $this->assertEquals(11, $this->subject->getArmorClass());
     }
 }
