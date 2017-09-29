@@ -138,4 +138,24 @@ class AttackCommandHandlerTest extends TestCase
 
         $this->subject->handle($this->command);
     }
+
+    public function testAttackRollSameAsArmorClass()
+    {
+        $this->attackRoll
+            ->expects($this->once())
+            ->method('roll')
+            ->willReturn(5);
+
+        $this->damageRoll
+            ->expects($this->once())
+            ->method('roll')
+            ->willReturn(10);
+
+        $this->target
+            ->expects($this->once())
+            ->method('getArmorClass')
+            ->willReturn(5);
+
+        $this->subject->handle($this->command);
+    }
 }

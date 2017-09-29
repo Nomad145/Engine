@@ -55,7 +55,7 @@ class AttackCommandHandler // implements CommandHandlerInterface
         // The attack roll must be greater than the target's Armor Class to hit.
         if ($attackRoll === 1 ||
             $attackRoll !== 20 &&
-            $attackRoll <= $target->getArmorClass()
+            $attackRoll < $target->getArmorClass()
         ) {
             return;
         }
