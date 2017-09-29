@@ -7,6 +7,8 @@ use Engine\Character;
 use Engine\Enum\AbilityEnum;
 use Engine\Roll\DamageRoll;
 use Engine\Weapon\MeleeWeapon;
+use Engine\Roll\Roll;
+use Engine\Roll\RollInterface;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -17,10 +19,15 @@ class DamageRollTest extends TestCase
     {
         $this->character = $this->createMock(Character::class);
         $this->weapon = $this->createMock(MeleeWeapon::class);
+        $roll = $this->createMock(RollInterface::class);
 
-        $this->weapon
+        $roll
             ->method('roll')
             ->willReturn(5);
+
+        $this->weapon
+            ->method('getDamage')
+            ->willReturn($roll);
 
         $this->weapon
             ->method('getModifier')
@@ -31,25 +38,18 @@ class DamageRollTest extends TestCase
             ->with(AbilityEnum::STRENGTH())
             ->willReturn(3);
     }
-    public function testRollWithoutCrit()
+
+    public function testRoll()
     {
-        $subject = new DamageRoll($this->character, $this->weapon);
+        $subject = new DamageRoll($this->character, $this->weapon, $this->weapon->getDamage());
         $value = $subject->roll();
 
         $this->assertEquals(8, $value);
     }
 
-    public function testRollWithCrit()
-    {
-        $subject = new DamageRoll($this->character, $this->weapon, false, true);
-        $value = $subject->roll();
-
-        $this->assertEquals(13, $value);
-    }
-
     public function testRollAsBonusAction()
     {
-        $subject = new DamageRoll($this->character, $this->weapon, true);
+        $subject = new DamageRoll($this->character, $this->weapon, $this->weapon->getDamage(), true);
         $value = $subject->roll();
 
         $this->assertEquals(5, $value);

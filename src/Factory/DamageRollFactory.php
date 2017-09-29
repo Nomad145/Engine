@@ -5,6 +5,8 @@ namespace Engine\Factory;
 use Engine\Character;
 use Engine\Weapon;
 use Engine\Roll\DamageRoll;
+use Engine\Roll\RollInterface;
+use Engine\Roll\CritRoll;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -17,6 +19,13 @@ class DamageRollFactory
         bool $bonusAction = false,
         bool $criticalHit = false
     ) {
-        return new DamageRoll($character, $weapon, $bonusAction, $criticalHit);
+        $roll = $weapon->getDamage();
+
+        return new DamageRoll(
+            $character,
+            $weapon,
+            $criticalHit ? new CritRoll($roll) : $roll,
+            $bonusAction
+        );
     }
 }
