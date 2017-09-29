@@ -50,11 +50,13 @@ class DamageRoll implements RollInterface
     {
         $damage = $this->roll->roll();
 
-        if (!$this->bonusAction) {
-            $modifier = $this->character->getAbilityModifier(
-                $this->weapon->getModifier()
-            );
+        if ($this->bonusAction) {
+            return $damage;
         }
+
+        $modifier = $this->character->getAbilityModifier(
+            $this->weapon->getModifier()
+        );
 
         return $damage + $modifier;
     }

@@ -45,14 +45,16 @@ class AttackRoll implements RollInterface
      */
     public function roll() : int
     {
+        $attack = $this->roll->roll();
+
         $modifier = $this->character->getAbilityModifier(
             $this->weapon->getModifier()
         );
 
-        $proficiencyBonus = $this->character->isProficientWith($this->weapon) ?
-            $this->character->getProficiencyBonus() :
-            0;
+        if (!$this->character->isProficientWith($this->weapon)) {
+            return $attack + $modifier;
+        }
 
-        return $this->roll->roll() + $modifier + $proficiencyBonus;
+        return $attack + $modifier + $this->character->getProficiencyBonus();
     }
 }
