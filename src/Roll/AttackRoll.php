@@ -45,13 +45,8 @@ class AttackRoll implements RollInterface
      */
     public function roll() : int
     {
-        // @todo: Determine the weapon type by it's subclass.  There also might
-        // not be a weapon equipped, so it may be necessary to have some
-        // "unarmed" type.
         $modifier = $this->character->getAbilityModifier(
-            $this->weapon instanceof MeleeWeapon ?
-            AbilityEnum::STRENGTH() :
-            AbilityEnum::DEXTERITY()
+            $this->weapon->getModifier()
         );
 
         $proficiencyBonus = $this->character->isProficientWith($this->weapon) ?

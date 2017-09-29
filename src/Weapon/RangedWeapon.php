@@ -4,6 +4,7 @@ namespace Engine\Weapon;
 
 use Engine\Weapon;
 use Engine\Roll\RollInterface;
+use Engine\Enum\AbilityEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -20,5 +21,13 @@ abstract class RangedWeapon extends Weapon
         $this->name = $name;
         $this->weight = $weight;
         $this->damage = $damage;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getModifier() : AbilityEnum
+    {
+        return AbilityEnum::DEXTERITY();
     }
 }

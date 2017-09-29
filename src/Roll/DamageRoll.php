@@ -43,6 +43,15 @@ class DamageRoll implements RollInterface
 
     public function roll() : int
     {
+        // This would be great to reduce to.
+        /*
+            $damage = $this->weapon->roll();
+
+            $modifier = $this->criticalHit->getAbilityModifier(
+                $this->weapon->getModifier()
+            );
+        */
+
         $damage = $this->weapon->roll();
 
         // @todo: Critical Hits should not be the concern of this class.  The
@@ -51,16 +60,9 @@ class DamageRoll implements RollInterface
             $damage += $this->weapon->roll();
         }
 
-        // @todo: This is duplicated from the AttackRoll.
         if (!$this->bonusAction) {
             $modifier = $this->character->getAbilityModifier(
-                // @todo: The weapon should hold the reference of the stat that
-                // modifies the roll so this logic can be moved to
-                // `MeleeWeapon` or `RangedWeapon`.  Consider an interface like
-                // `WeaponInterface`.
-                $this->weapon instanceof MeleeWeapon ?
-                AbilityEnum::STRENGTH() :
-                AbilityEnum::DEXTERITY()
+                $this->weapon->getModifier()
             );
         }
 

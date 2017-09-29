@@ -4,6 +4,7 @@ namespace Engine;
 
 use Engine\Roll\RollInterface;
 use Engin\Enum\WeaponCategoryEnum;
+use Engine\Enum\AbilityEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -65,4 +66,14 @@ abstract class Weapon implements RollInterface
     {
         return $this->category;
     }
+
+    /**
+     * Returns the ability modifier for the type of weapon.  Melee weapons will
+     * return strength, ranged weapons will return dexterity enums.
+     *
+     * @todo: Skills, spells, etc may also need this method.  Consider an interface.
+     *
+     * @return AbilityEnum
+     */
+    abstract public function getModifier() : AbilityEnum;
 }

@@ -22,6 +22,10 @@ class DamageRollTest extends TestCase
             ->method('roll')
             ->willReturn(5);
 
+        $this->weapon
+            ->method('getModifier')
+            ->willReturn(AbilityEnum::STRENGTH());
+
         $this->character
             ->method('getAbilityModifier')
             ->with(AbilityEnum::STRENGTH())
