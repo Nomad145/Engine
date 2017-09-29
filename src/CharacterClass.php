@@ -4,11 +4,12 @@ namespace Engine;
 
 use Engine\Enum\AbilityEnum;
 use Engine\Roll\CalculatedRollInterface;
+use Engine\ProficiencyInterface;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-abstract class CharacterClass
+abstract class CharacterClass implements ProficiencyInterface
 {
     /**
      * The hit dice for determining the maximum hit points for a
@@ -18,13 +19,6 @@ abstract class CharacterClass
      * @var CalculatedRollInterface
      */
     protected $hitDice;
-
-    /**
-     * An associative array of class profieciency bonuses.
-     *
-     * @var array
-     */
-    protected $proficiencyBonuses;
 
     /**
      * Get the starting HP for the Character Class.
@@ -53,8 +47,5 @@ abstract class CharacterClass
      * @param int $level
      * @return int
      */
-    public function getProficiencyBonus(int $level) : int
-    {
-        return $this->proficiencyBonuses[$level > 20 ? 20 : $level];
-    }
+    abstract public function getProficiencyBonus(int $level) : int;
 }

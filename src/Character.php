@@ -10,11 +10,12 @@ use Engine\Roll\Roll;
 use Engine\Weapon;
 use Engine\Armor\ArmorClassInterface;
 use Engine\Equipment;
+use Engine\ProficiencyInterface;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-class Character implements ArmorClassInterface
+class Character implements ArmorClassInterface, ProficiencyInterface
 {
     /** @var string */
     protected $name;
@@ -147,15 +148,11 @@ class Character implements ArmorClassInterface
     }
 
     /**
-     * @todo: Need to check for proficiencies with weapons, armor, spell types,
-     * etc.  Maybe `ProficiencyInterface`?  Maybe just deal with a collection
-     * of classnames.
-     *
-     * @param Weapon $weapon
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isProficientWith(Weapon $weapon) : bool
+    public function isProficientWith(object $skill) : bool
     {
+        return $this->class->isProficientWith($skill);
     }
 
     /**
@@ -166,6 +163,6 @@ class Character implements ArmorClassInterface
      */
     public function getProficiencyBonus() : int
     {
-        $this->class->getProficiencyBonus($this->level);
+        return $this->class->getProficiencyBonus($this->level);
     }
 }

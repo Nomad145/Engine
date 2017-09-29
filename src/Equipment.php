@@ -4,6 +4,7 @@ namespace Engine;
 
 use Engine\Armor\ArmorClassInterface;
 use Engine\Armor;
+use Engine\Weapon;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>

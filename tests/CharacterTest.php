@@ -61,4 +61,18 @@ class CharacterTest extends TestCase
     {
         $this->assertEquals(11, $this->subject->getArmorClass());
     }
+
+    public function testIsProficientWith()
+    {
+        $value = $this->subject->isProficientWith(new LightArmor());
+
+        $this->assertFalse($value);
+    }
+
+    public function testGetProficiencyBonus()
+    {
+        $value = $this->subject->getProficiencyBonus();
+
+        $this->assertEquals(4, $value);
+    }
 }

@@ -10,6 +10,7 @@ use Engine\Character;
 use Engine\Roll\AttackRoll;
 use Engine\Enum\AbilityEnum;
 use Engine\Weapon\Ranged\Longbow;
+use Engine\Enum\WeaponCategoryEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -32,7 +33,7 @@ class AttackRollTest extends TestCase
 
     public function testMeleeAttackRollWithProficiencyBonus()
     {
-        $sword = new Longsword('Anduril', 3, new Roll(1, 10));
+        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10));
 
         $this->character
             ->method('getAbilityModifier')
@@ -52,7 +53,7 @@ class AttackRollTest extends TestCase
 
     public function testMeleeAttackRollWithoutProficiencyBonus()
     {
-        $sword = new Longsword('Anduril', 3, new Roll(1, 10));
+        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10));
 
         $this->character
             ->method('getAbilityModifier')

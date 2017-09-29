@@ -3,6 +3,7 @@
 namespace Engine;
 
 use Engine\Roll\RollInterface;
+use Engin\Enum\WeaponCategoryEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -17,6 +18,9 @@ abstract class Weapon implements RollInterface
 
     /** @var RollInterface */
     protected $damage;
+
+    /** @var WeaponCategoryEnum */
+    protected $category;
 
     /**
      * @return string
@@ -50,5 +54,15 @@ abstract class Weapon implements RollInterface
     public function roll() : int
     {
         return $this->damage->roll();
+    }
+
+    /**
+     * Returns either the 'martial' or 'simple' enumerable.
+     *
+     * @return WeaponCategoryEnum
+     */
+    public function getCategory() : WeaponCategoryEnum
+    {
+        return $this->category;
     }
 }
