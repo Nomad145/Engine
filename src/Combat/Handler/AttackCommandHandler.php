@@ -40,36 +40,33 @@ class AttackCommandHandler // implements CommandHandlerInterface
         $target = $command->getTarget();
 
         /* @var int */
-        $attackRoll = ($this
+        $attackRoll = $this
             ->attackRollFactory
             ->withCharacterAndWeapon(
                 $character,
                 $weapon
-            ))->roll();
+            )->roll();
 
         // If the attack roll equals 1, the attack misses.
-        if ($attackRoll === 1) {
+        // If the attack roll equals 20, the attack auto hits and is critical.
+        // Otherwise, compare the attack roll with the target's armor class.
+        // The attack roll must be greater than the target's Armor Class to hit.
+        if ($attackRoll === 1 ||
+            $attackRoll !== 20 &&
+            $attackRoll <= $target->getArmorClass()
+        ) {
             return;
         }
 
-        // If the attack roll equals 20, the attack auto hits and is critical.
-        // Otherwise, compare the attack roll with the target's armor class.
-        if ($attackRoll !== 20) {
-            // The attack roll must be greater than the target's Armor Class.
-            if ($attackRoll <= $target->getArmorClass()) {
-                return;
-            }
-        }
-
         /* @var int */
-        $damage = ($this
+        $damage = $this
             ->damageRollFactory
             ->withCharacterAndWeapon(
                 $character,
                 $weapon,
                 $command->getBonusAction(),
                 $attackRoll === 20
-            ))->roll();
+            )->roll();
 
         // @todo: Damage Types, Vulnerabilites, and Resistances.
         $target->setHitPoints($target->getHitPoints() - $damage);
