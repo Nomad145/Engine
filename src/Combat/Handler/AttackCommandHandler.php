@@ -47,6 +47,8 @@ class AttackCommandHandler // implements CommandHandlerInterface
                 $weapon
             )->roll();
 
+        // @todo: Advantage/Disadvantage.
+
         // If the attack roll equals 1, the attack misses.
         // If the attack roll equals 20, the attack auto hits and is critical.
         // Otherwise, compare the attack roll with the target's armor class.

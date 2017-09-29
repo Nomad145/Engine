@@ -55,8 +55,8 @@ class Roll implements RollInterface, CalculatedRollInterface
     /**
      * {@inheritdoc}
      */
-    public function max() : int
+    public function sum() : int
     {
-        return $this->dice[0]->max() * count($this->dice);
+        return $this->dice[0]->sum() * count($this->dice);
     }
 }

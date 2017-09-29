@@ -17,9 +17,9 @@ interface CalculatedRollInterface extends RollInterface
     public function avg() : int;
 
     /**
-     * Returns the max value of the dice.
+     * Returns the sum of all dice.
      *
      * @return int
      */
-    public function max() : int;
+    public function sum() : int;
 }

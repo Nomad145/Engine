@@ -34,7 +34,7 @@ class Dice implements RollInterface, CalculatedRollInterface
     /**
      * {@inheritdoc}
      */
-    public function max() : int
+    public function sum() : int
     {
         return $this->sides;
     }

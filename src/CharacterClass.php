@@ -30,7 +30,7 @@ abstract class CharacterClass implements ProficiencyInterface
      */
     public function getStartingHitPoints() : int
     {
-        return $this->hitDice->max();
+        return $this->hitDice->sum();
     }
 
     /**

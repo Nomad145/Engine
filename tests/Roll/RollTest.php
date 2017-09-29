@@ -30,7 +30,7 @@ class RollTest extends TestCase
     public function test4d10Max()
     {
         $subject = new Roll(4, 10);
-        $value = $subject->max();
+        $value = $subject->sum();
 
         $this->assertEquals(40, $value);
     }

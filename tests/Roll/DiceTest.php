@@ -35,16 +35,16 @@ class DiceTest extends TestCase
         $this->assertEquals(6, $value3);
     }
 
-    public function testMax()
+    public function testSum()
     {
         $subject1 = new Dice(6);
-        $value1 = $subject1->max();
+        $value1 = $subject1->sum();
 
         $subject2 = new Dice(8);
-        $value2 = $subject2->max();
+        $value2 = $subject2->sum();
 
         $subject3 = new Dice(10);
-        $value3 = $subject3->max();
+        $value3 = $subject3->sum();
 
         $this->assertEquals(6, $value1);
         $this->assertEquals(8, $value2);
