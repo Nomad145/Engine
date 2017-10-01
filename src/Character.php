@@ -142,6 +142,9 @@ class Character implements ArmorClassInterface, ProficiencyInterface
         return $this->hitPoints;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getArmorClass() : int
     {
         return $this->equipment->getArmorClass();

@@ -35,8 +35,13 @@ class AttackCommandHandler // implements CommandHandlerInterface
      */
     public function handle(AttackCommand $command) : void
     {
+        /** @var Character */
         $character = $command->getCharacter();
+
+        /** @var Weapon */
         $weapon = $command->getWeapon();
+
+        /** @var Character */
         $target = $command->getTarget();
 
         /* @var int */
