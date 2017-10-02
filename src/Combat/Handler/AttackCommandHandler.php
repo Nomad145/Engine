@@ -44,6 +44,9 @@ class AttackCommandHandler // implements CommandHandlerInterface
         /** @var Character */
         $target = $command->getTarget();
 
+        /** @var DamageTypeEnum */
+        $damageType = $weapon->getDamageType();
+
         /* @var int */
         $attackRoll = $this
             ->attackRollFactory
@@ -75,7 +78,13 @@ class AttackCommandHandler // implements CommandHandlerInterface
                 $attackRoll === 20
             )->roll();
 
-        // @todo: Damage Types, Vulnerabilites, and Resistances.
+        // Apply resistances and vulnerabilities.
+        if ($character->isVulnerable($damageType)) {
+            $damage = $damage * 2;
+        } else if ($character->isResistant($damageType)) {
+            $damage = $damage / 2;
+        }
+
         $target->setHitPoints($target->getHitPoints() - $damage);
 
         return;

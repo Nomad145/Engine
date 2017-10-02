@@ -48,6 +48,7 @@ class DamageRoll implements RollInterface
      */
     public function roll() : int
     {
+        /** @var int */
         $damage = $this->roll->roll();
 
         if ($this->bonusAction) {

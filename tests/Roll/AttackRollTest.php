@@ -11,6 +11,7 @@ use Engine\Roll\AttackRoll;
 use Engine\Enum\AbilityEnum;
 use Engine\Weapon\Ranged\Longbow;
 use Engine\Enum\WeaponCategoryEnum;
+use Engine\Enum\DamageTypeEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -33,7 +34,7 @@ class AttackRollTest extends TestCase
 
     public function testMeleeAttackRollWithProficiencyBonus()
     {
-        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10));
+        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10), DamageTypeEnum::SLASHING());
 
         $this->character
             ->method('getAbilityModifier')
@@ -53,7 +54,7 @@ class AttackRollTest extends TestCase
 
     public function testMeleeAttackRollWithoutProficiencyBonus()
     {
-        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10));
+        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10), DamageTypeEnum::SLASHING());
 
         $this->character
             ->method('getAbilityModifier')
@@ -73,7 +74,7 @@ class AttackRollTest extends TestCase
 
     public function testRangedAttackRollWithProficiencyBonus()
     {
-        $sword = new Longbow('Basic Bow', 3, new Roll(1, 5));
+        $sword = new Longbow('Basic Bow', 3, new Roll(1, 5), DamageTypeEnum::PIERCING());
 
         $this->character
             ->method('getAbilityModifier')
@@ -93,7 +94,7 @@ class AttackRollTest extends TestCase
 
     public function testRangedAttackRollWithoutProficiencyBonus()
     {
-        $sword = new Longbow('Basic Bow', 3, new Roll(1, 5));
+        $sword = new Longbow('Basic Bow', 3, new Roll(1, 5), DamageTypeEnum::PIERCING());
 
         $this->character
             ->method('getAbilityModifier')

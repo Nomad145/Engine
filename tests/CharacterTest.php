@@ -10,6 +10,7 @@ use Engine\CharacterClass\Wizard;
 use Engine\AbilityScores;
 use Engine\Equipment;
 use Engine\Armor\LightArmor;
+use Engine\Enum\DamageTypeEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -30,7 +31,7 @@ class CharacterTest extends TestCase
         $equipment = (new Equipment())
             ->setArmor(new LightArmor());
 
-        $character = new Character('Gandalf', 9, new Human(), new Wizard(), $abilityScores);
+        $character = new Character('Gandalf', 9, new Human(), new Wizard(), $abilityScores, [DamageTypeEnum::COLD()], [DamageTypeEnum::POISON()]);
         $character->setEquipment($equipment);
 
         $this->subject = $character;
@@ -74,5 +75,17 @@ class CharacterTest extends TestCase
         $value = $this->subject->getProficiencyBonus();
 
         $this->assertEquals(4, $value);
+    }
+
+    public function testIsVulnerable()
+    {
+        $this->assertTrue($this->subject->isVulnerable(DamageTypeEnum::COLD()));
+        $this->assertFalse($this->subject->isVulnerable(DamageTypeEnum::FIRE()));
+    }
+
+    public function testIsResistant()
+    {
+        $this->assertTrue($this->subject->isResistant(DamageTypeEnum::POISON()));
+        $this->assertFalse($this->subject->isResistant(DamageTypeEnum::NECROTIC()));
     }
 }

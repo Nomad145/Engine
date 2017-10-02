@@ -14,6 +14,7 @@ use Engine\Roll\Roll;
 use Engine\Factory\DamageRollFactory;
 use Engine\Roll\DamageRoll;
 use Engine\Enum\WeaponCategoryEnum;
+use Engine\Enum\DamageTypeEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -29,7 +30,7 @@ class AttackCommandHandlerTest extends TestCase
         $this->damageRoll = $this->createMock(DamageRoll::class);
         $attackRollFactory = $this->createMock(AttackRollFactory::class);
         $damageRollFactory = $this->createMock(DamageRollFactory::class);
-        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10));
+        $sword = new Longsword('Anduril', 3, WeaponCategoryEnum::MARTIAL(), new Roll(1, 10), DamageTypeEnum::SLASHING());
 
         $attackRollFactory
             ->method('withCharacterAndWeapon')

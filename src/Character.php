@@ -11,6 +11,7 @@ use Engine\Weapon;
 use Engine\Armor\ArmorClassInterface;
 use Engine\Equipment;
 use Engine\ProficiencyInterface;
+use Engine\Enum\DamageTypeEnum;
 
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
@@ -44,12 +45,20 @@ class Character implements ArmorClassInterface, ProficiencyInterface
     /** @var Inventory */
     protected $inventory;
 
+    /** @var DamageTypeEnum[] */
+    protected $resistances;
+
+    /** @var DamageTypeEnum[] */
+    protected $vulnerabilities;
+
     public function __construct(
         string $name,
         int $level,
         Race $race,
         CharacterClass $class,
-        AbilityScores $abilityScores
+        AbilityScores $abilityScores,
+        array $vulnerabilities = [],
+        array $resistances = []
     ) {
         $this->name = $name;
         $this->level = $level;
@@ -58,6 +67,8 @@ class Character implements ArmorClassInterface, ProficiencyInterface
         $this->abilityScores = $abilityScores;
         $this->hitPoints = $this->getMaxHitPoints();
         $this->equipment = new Equipment();
+        $this->vulnerabilities = $vulnerabilities;
+        $this->resistances = $resistances;
     }
 
     /**
@@ -132,6 +143,24 @@ class Character implements ArmorClassInterface, ProficiencyInterface
         $this->hitPoints = $hitPoints;
 
         return $this;
+    }
+
+    /**
+     * @param DamageTypeEnum $damageType
+     * @return bool
+     */
+    public function isVulnerable(DamageTypeEnum $damageType) : bool
+    {
+        return in_array($damageType, $this->vulnerabilities);
+    }
+
+    /**
+     * @param DamageTypeEnum $damageType
+     * @return bool
+     */
+    public function isResistant(DamageTypeEnum $damageType) : bool
+    {
+        return in_array($damageType, $this->resistances);
     }
 
     /**
