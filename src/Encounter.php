@@ -7,59 +7,35 @@ namespace Engine;
 /**
  * @author Michael Phillips <michaeljoelphillips@gmail.com>
  */
-class Encounter
+class Encounter implements \Iterator
 {
     /** @var int */
     protected $id;
 
-    /** @var Character[] */
-    protected $enemies;
-
-    /** @var Character[] */
-    protected $allies;
+    /**
+     * The array of characters participating in the encounter sorted by their
+     * turn order.
+     *
+     * @var Character[]
+     */
+    protected $characters;
 
     /** @var Environment */
     protected $environment;
 
     /** @var int */
-    protected $round;
+    protected $round = 0;
 
     /**
-     * @param array $enemies
-     * @return $this
+     * The integer representing the current turn for the round.
+     *
+     * @var int
      */
-    public function setEnemies(array $enemies) : Encounter
+    protected $currentTurn = 0;
+
+    public function __construct(array $characters)
     {
-        $this->enemies = $enemies;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getEnemies() :? array
-    {
-        return $this->enemies;
-    }
-
-    /**
-     * @param array $allies
-     * @return $this
-     */
-    public function setAllies(array $allies) : Encounter
-    {
-        $this->allies = $allies;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getAllies() : ?array
-    {
-        return $this->allies;
+        $this->characters = $characters;
     }
 
     /**
@@ -79,5 +55,46 @@ class Encounter
     public function getRound() : ?int
     {
         return $this->round;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function current()
+    {
+        return $this->characters[$this->currentTurn];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function key()
+    {
+        return $this->currentTurn;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function next()
+    {
+        $this->currentTurn++;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
+    {
+        $this->currentTurn = 0;
+        $this->round = $this->round++;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function valid()
+    {
+        return isset($this->characters[$this->currentTurn]);
     }
 }
