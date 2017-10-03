@@ -72,6 +72,14 @@ class Character implements ArmorClassInterface, ProficiencyInterface
     }
 
     /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+    /**
      * @param Equipment $equipment
      * @return $this
      */
